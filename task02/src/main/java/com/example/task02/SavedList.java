@@ -54,14 +54,14 @@ public class SavedList<E extends Serializable> extends AbstractList<E> {
 
     private void deserializeFromFile() throws IOException {
         if (!fileStore.exists()) {
-            return; // нет файла — нет элементов
+            return;
         }
         try (var ois = new ObjectInputStream(new FileInputStream(fileStore))) {
             List<E> loaded = (List<E>) ois.readObject();
             inMemoryData.clear();
             inMemoryData.addAll(loaded);
         } catch (EOFException eof) {
-            inMemoryData.clear(); // пустой файл — пустой список
+            inMemoryData.clear();
         } catch (ClassNotFoundException e) {
             throw new IOException("Cannot deserialize SavedList from " + fileStore, e);
         }
